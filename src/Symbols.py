@@ -9,6 +9,11 @@ class Constant(Symbol):
     def __str__(self):
         return self.value
 
+    def __eq__(self, other):
+        if isinstance(other, Constant):
+            return self.value == other.value
+        return NotImplemented
+
 class String(object):
     """
     A string of Symbols

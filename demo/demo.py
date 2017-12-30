@@ -73,6 +73,66 @@ systems = {
         'symbols': ['F'],
         'left': 90
     },
+    'rings': {
+        'class': LSystem.Systems.Rings,
+        'steps': 4,
+        'angle': 90,
+        'pos': [0, -200],
+        'len': 5,
+        'symbols': ['F']
+    },
+    'tiles': {
+        'class': LSystem.Systems.Tiles,
+        'steps': 5,
+        'angle': 90,
+        'pos': [0, -200],
+        'len': 5,
+        'symbols': ['F']
+    },
+    'board': {
+        'class': LSystem.Systems.Board,
+        'steps': 4,
+        'angle': 90,
+        'pos': [-200, -200],
+        'len': 5,
+        'symbols': ['F']
+    },
+    'krishna': {
+        'class': LSystem.Systems.KrishnaAnklets,
+        'steps': 6,
+        'angle': 45,
+        'pos': [-300, 0],
+        'len': 7,
+        'left': 45,
+        'symbols': ['F']
+    },
+    'algae2': {
+        'class': LSystem.Systems.Algae2,
+        'steps': 16,
+        'angle': 12,
+        'pos': [0, -400],
+        'len': 3,
+        'left': 90,
+        'symbols': ['F']
+    },
+    'qki': {
+        'class': LSystem.Systems.QuadraticKochIsland,
+        'steps': 3,
+        'angle': 90,
+        'pos': [100, -400],
+        'len': 3,
+        'left': 90,
+        'symbols': ['F']
+    },
+    'triangle': {
+        'class': LSystem.Systems.Triangle,
+        'steps': 7,
+        'angle': 120,
+        'pos': [0, 100],
+        'len': 8,
+        'left': 90,
+        'symbols': ['F']
+    }
 }
 
 def main(_):
@@ -84,7 +144,10 @@ def main(_):
         raise RuntimeError('Invalid --system value')
 
     system = systems[FLAGS.system]
-    g = system['class']().run(system['steps'])
+    g = system['class']()
+    print str(g.pretty())
+
+    g.run(system['steps'])
     angle = system['angle']
     start = system['pos']
     step = system['len']

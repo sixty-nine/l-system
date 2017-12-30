@@ -1,5 +1,5 @@
-from Symbols import Symbol, String
-from Rules import Rule
+from Symbols import Symbol, Constant, String
+from Rules import Rule, SimpleRule
 
 class Grammar(object):
     def __init__(self, start_symbol, alphabet = [], rules = []):
@@ -45,3 +45,45 @@ class Grammar(object):
             else:
                 res.add_item(item)
         self.string = res
+
+    def __str__(self):
+        res = []
+        for r in self.rules:
+            res.append(str(self.rules[r]))
+        return '%s { Axiom: %s; Rules: %s }' % (self.__class__.__name__, str(self.string), ', '.join(res))
+
+    def pretty(self):
+        return str(self) \
+            .replace('; ', '\n\n  ').replace('{', '{\n ') \
+            .replace('}', '\n}\n').replace(', ', ',\n    ') \
+            .replace('Rules:', 'Rules:\n   ')
+
+class SimpleGrammar(Grammar):
+
+    def __init__(self, axiom, rules_arr):
+
+        start = []
+        symbols = {}
+        rules = []
+
+        for s in axiom:
+            symbol = self._add_symbol(symbols, s)
+            start.append(symbol)
+
+        for r in rules_arr:
+            if r[1] != '=': raise ValueError('Malformed rule: ' + r)
+            symbol = self._add_symbol(symbols, r[0])
+            rule = []
+            for s in r[2:]:
+                s =self._add_symbol(symbols, s)
+                rule.append(s)
+            rules.append(SimpleRule(symbol, String(rule)))
+
+        super(SimpleGrammar, self).__init__(String(start), symbols.values(), rules)
+
+    def _add_symbol(self, symbols, value):
+        if value in symbols.keys():
+            return symbols[value]
+
+        symbols[value] = Constant(value)
+        return symbols[value]

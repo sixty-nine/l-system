@@ -36,3 +36,12 @@ class LSystemTestCase(unittest.TestCase):
                          'F+F-F-F+F+F+F-F-F+F-F+F-F-F+F-F+F-F-F+F+F+F-F-F+F-' +
                          'F+F-F-F+F+F+F-F-F+F-F+F-F-F+F-F+F-F-F+F+F+F-F-F+F+' +
                          'F+F-F-F+F+F+F-F-F+F-F+F-F-F+F-F+F-F-F+F+F+F-F-F+F', str(g.run().string))
+
+    def testSimpleGrammar(self):
+        koch = LSystem.Systems.Koch()
+        g = LSystem.SimpleGrammar('F', ['F=F+F-F-F+F'])
+
+        for i in xrange(5):
+            expected = koch.run().string
+            actual = g.run().string
+            self.assertEqual(str(expected), str(actual))

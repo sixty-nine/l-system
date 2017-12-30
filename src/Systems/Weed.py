@@ -15,10 +15,6 @@ class Weed(Grammar.Grammar):
         c1 = Symbols.Constant('[')
         c2 = Symbols.Constant(']')
 
-        # F -> FF-[XY]+[XY]
-        # X -> +FY
-        # Y -> -FX
-
         r1 = Rules.SimpleRule(f, Symbols.String([f, f, minus, c1, x, y, c2, plus, c1, x, y, c2]))
         r2 = Rules.SimpleRule(x, Symbols.String([plus, f, y]))
         r3 = Rules.SimpleRule(y, Symbols.String([minus, f, x]))

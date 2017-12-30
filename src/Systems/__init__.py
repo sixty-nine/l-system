@@ -7,3 +7,10 @@ from Hilbert import Hilbert
 from HexagonalGosper import HexagonalGosper
 from Crystal import Crystal
 from Weed import Weed
+from Rings import Rings
+from Tiles import Tiles
+from Board import Board
+from KrishnaAnklets import KrishnaAnklets
+from Algae2 import Algae2
+from QuadraticKochIsland import QuadraticKochIsland
+from Triangle import Triangle
