@@ -1,6 +1,6 @@
 # Exploration of Lindenmayer systems
 
-# Draw various L-Systems
+## Draw various L-Systems
 
 ```
 python demo/demo.py --system <system>
@@ -15,8 +15,8 @@ Check the `src/Systems` directory.
 
 There are several ways to implement L-Systems. Two good and different examples are:
 
- * `algae.py`
- * `algae2.py`
+ * [`algae.py`](https://github.com/sixty-nine/l-system/blob/master/src/Systems/Algae.py)
+ * [`algae2.py`](https://github.com/sixty-nine/l-system/blob/master/src/Systems/Algae2.py)
 
 ## Run the tests
 
