@@ -167,11 +167,11 @@ def main(_):
 
     for c in str(g.string):
         if c in draw_symbols: forward(step)
-        if c == '-': right(angle)
-        if c == '+': left(angle)
-        if c == '[':
+        elif c == '-': right(angle)
+        elif c == '+': left(angle)
+        elif c == '[':
             stack.append([heading(), position()])
-        if c == ']':
+        elif c == ']':
             if len(stack):
                 penup()
                 state = stack.pop()
