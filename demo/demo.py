@@ -3,8 +3,6 @@
 import argparse
 import sys
 import os, math
-import turtle
-from turtle import *
 
 sys.path.append(os.path.realpath(os.path.dirname(__file__) + '/../..'))
 
@@ -32,7 +30,7 @@ systems = {
     },
     'dragon': {
         'class': LSystem.Systems.Dragon,
-        'steps': 14,
+        'steps': 16,
         'angle': 90,
         'pos': [0, 0],
         'len': 7,
@@ -49,7 +47,7 @@ systems = {
     },
     'hex-gosper': {
         'class': LSystem.Systems.HexagonalGosper,
-        'steps': 7,
+        'steps': 5,
         'angle': 60,
         'pos': [250, -300],
         'len': 7,
@@ -57,7 +55,7 @@ systems = {
     },
     'crystal': {
         'class': LSystem.Systems.Crystal,
-        'steps': 5,
+        'steps': 6,
         'angle': 90,
         'pos': [400, -300],
         'len': 3,
@@ -153,33 +151,77 @@ def main(_):
     step = system['len']
     draw_symbols = system['symbols']
 
-    if 'left' in system: left(system['left'])
-    if 'right' in system: right(system['right'])
-
-    hideturtle()
-    speed(0)
-    penup()
-    setx(start[0])
-    sety(start[1])
-    pendown()
+    cur_angle = angle
+    (x, y) = start
+    min_x = min_y = max_x = max_y = 0
+    path = []
 
     stack = []
 
+    if 'right' in system: cur_angle += system['right']
+    if 'left' in system: cur_angle -= system['left']
+
     for c in str(g.string):
-        if c in draw_symbols: forward(step)
-        elif c == '-': right(angle)
-        elif c == '+': left(angle)
+        if c in draw_symbols:
+            a = math.radians(cur_angle)
+            x += math.cos(a) * step
+            y += math.sin(a) * step
+            if x > max_x: max_x = x
+            elif x < min_x: min_x = x
+            if y > max_y: max_y = y
+            elif y < min_y: min_y = y
+            path.append([x, y])
+        elif c == '-':
+            cur_angle += angle
+        elif c == '+':
+            cur_angle -= angle
         elif c == '[':
-            stack.append([heading(), position()])
+            stack.append([x, y, cur_angle])
         elif c == ']':
             if len(stack):
-                penup()
                 state = stack.pop()
-                setheading(state[0])
-                setposition(state[1][0], state[1][1])
-                pendown()
+                x = state[0]
+                y = state[1]
+                cur_angle = state[2]
 
-    done()
+    import pygame
+    from map.drawer import Drawable, Plotter
+    from map.utils import hex_to_rgb
+
+    class MyDrawer(Drawable):
+        def __init__(self, path, color = '#000000'):
+            self.path = path
+            self.color = hex_to_rgb(color)
+            self.old_pos = None
+            self.offset = [500, 800]
+            self.zoom = 2
+
+        def draw(self, screen):
+            scale_x = screen.get_width() / (max_x - min_x)
+            scale_y = screen.get_height() / (max_y - min_y)
+            offset_x = -scale_x * min_x
+            offset_y = -scale_y * min_y
+
+            def project(point):
+                (x, y) = point
+                return [scale_x * x + offset_x, scale_y * y + offset_y]
+
+            try:
+                i = iter(self.path)
+                old_pos = None
+                while True:
+                    if not old_pos:
+                        old_pos = project(i.next())
+                    pos = project(i.next())
+                    pygame.draw.line(screen, self.color, old_pos, pos, 1)
+                    old_pos = pos
+            except StopIteration as e:
+                pass
+
+    plotter = Plotter()
+    plotter.add_drawer(MyDrawer(path))
+    plotter.draw()
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
