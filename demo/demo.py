@@ -16,32 +16,36 @@ systems = {
         'class': LSystem.Systems.Koch,
         'steps': 7,
         'angle': 90,
-        'pos': [-500, -400],
-        'len': 2,
         'symbols': ['F']
     },
     'sierpinski': {
         'class': LSystem.Systems.Sierpinski,
         'steps': 7,
         'angle': 120,
-        'pos': [-600, 400],
-        'len': 7,
         'symbols': ['F', 'G']
     },
     'dragon': {
         'class': LSystem.Systems.Dragon,
         'steps': 16,
         'angle': 90,
-        'pos': [0, 0],
-        'len': 7,
         'symbols': ['X', 'Y']
+    },
+    'twin-dragon': {
+        'class': LSystem.Systems.TwinDragon,
+        'steps': 15,
+        'angle': 90,
+        'symbols': ['X', 'Y']
+    },
+    'levy': {
+        'class': LSystem.Systems.Levy,
+        'steps': 15,
+        'angle': 45,
+        'symbols': ['F']
     },
     'hilbert': {
         'class': LSystem.Systems.Hilbert,
         'steps': 7,
         'angle': 90,
-        'pos': [-400, -300],
-        'len': 7,
         'symbols': ['F'],
         'left': 90
     },
@@ -49,16 +53,12 @@ systems = {
         'class': LSystem.Systems.HexagonalGosper,
         'steps': 5,
         'angle': 60,
-        'pos': [250, -300],
-        'len': 7,
         'symbols': ['X', 'Y'],
     },
     'crystal': {
         'class': LSystem.Systems.Crystal,
         'steps': 6,
         'angle': 90,
-        'pos': [400, -300],
-        'len': 3,
         'symbols': ['F'],
         'left': 90
     },
@@ -66,8 +66,6 @@ systems = {
         'class': LSystem.Systems.Weed,
         'steps': 6,
         'angle': 22.5,
-        'pos': [0, -300],
-        'len': 5,
         'symbols': ['F'],
         'left': 90
     },
@@ -75,32 +73,24 @@ systems = {
         'class': LSystem.Systems.Rings,
         'steps': 4,
         'angle': 90,
-        'pos': [0, -200],
-        'len': 5,
         'symbols': ['F']
     },
     'tiles': {
         'class': LSystem.Systems.Tiles,
         'steps': 5,
         'angle': 90,
-        'pos': [0, -200],
-        'len': 5,
         'symbols': ['F']
     },
     'board': {
         'class': LSystem.Systems.Board,
         'steps': 4,
         'angle': 90,
-        'pos': [-200, -200],
-        'len': 5,
         'symbols': ['F']
     },
     'krishna': {
         'class': LSystem.Systems.KrishnaAnklets,
         'steps': 6,
         'angle': 45,
-        'pos': [-300, 0],
-        'len': 7,
         'left': 45,
         'symbols': ['F']
     },
@@ -108,8 +98,6 @@ systems = {
         'class': LSystem.Systems.Algae2,
         'steps': 16,
         'angle': 12,
-        'pos': [0, -400],
-        'len': 3,
         'left': 90,
         'symbols': ['F']
     },
@@ -117,8 +105,6 @@ systems = {
         'class': LSystem.Systems.QuadraticKochIsland,
         'steps': 3,
         'angle': 90,
-        'pos': [100, -400],
-        'len': 3,
         'left': 90,
         'symbols': ['F']
     },
@@ -126,8 +112,6 @@ systems = {
         'class': LSystem.Systems.Triangle,
         'steps': 7,
         'angle': 120,
-        'pos': [0, 100],
-        'len': 8,
         'left': 90,
         'symbols': ['F']
     }
@@ -147,8 +131,8 @@ def main(_):
 
     g.run(system['steps'])
     angle = system['angle']
-    start = system['pos']
-    step = system['len']
+    start = [0, 0]
+    step = 1
     draw_symbols = system['symbols']
 
     cur_angle = angle

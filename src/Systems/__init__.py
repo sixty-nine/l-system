@@ -14,3 +14,5 @@ from KrishnaAnklets import KrishnaAnklets
 from Algae2 import Algae2
 from QuadraticKochIsland import QuadraticKochIsland
 from Triangle import Triangle
+from TwinDragon import TwinDragon
+from Levy import Levy
